@@ -1,0 +1,38 @@
+# Python virtual environment
+venv/
+.venv/
+env/
+
+# Django-specific files
+*.pyc
+__pycache__/
+media/
+static/
+db.sqlite3
+
+# IDE-specific files
+.idea/
+.vscode/
+*.swp
+*.bak
+*~
+
+# Operating System files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Secret keys and environment variables
+.env
+# career_consulting_project/settings.py # Only if you put secret keys directly in settings.py and haven't used .env loading
+
+# Logs
+logs/
+*.log
+feedback_log_qa.jsonl
+
+# Large model data - EXCLUDE THIS ENTIRE DIRECTORY
+career_consulting/career/qa_model/ # This is the key line to ensure
+career_consulting/career/qa_data
+career_consulting/career/skills_data 
