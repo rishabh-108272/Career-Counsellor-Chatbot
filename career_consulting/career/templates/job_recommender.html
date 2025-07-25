@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Career QA - Career Consulting AI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card-qa {
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem rgba(13, 110, 253, 0.1);
+        }
+        .btn-ask {
+            background-color: #0d6efd;
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+        }
+        .btn-ask:hover {
+            background-color: #0847c1;
+            color: white;
+        }
+        .recommendation-card {
+            background-color: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
+        }
+        .recommendation-card h6 {
+            color: #0d6efd;
+        }
+        .summary-box, .fallback-box {
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+        }
+        .summary-box { background-color: #e9f7ff; border: 1px solid #0d6efd; }
+        .summary-box h5 { color: #0d6efd; }
+        .fallback-box { background-color: #fff3cd; border: 1px solid #ffc107; }
+        .fallback-box h5 { color: #ffc107; }
+        
+        /* NEW: Styles for feedback section */
+        .feedback-section {
+            background-color: #f0f0f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand text-primary fw-bold" href="#">Pathwise QA</a>
+        </div>
+    </nav>
+
+    <header class="position-relative text-center py-5 overflow-hidden">
+        </header>
+    
+    <section class="container my-5">
+        <div class="card card-qa border-0">
+            <div class="card-body p-4 p-md-5">
+                <h2 class="h4 text-center fw-bold text-primary mb-3">Ask the AI Assistant</h2>
+                <form id="qaForm">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control form-control-lg" id="questionInput" placeholder=" " required />
+                        <label for="questionInput"><i class="bi bi-patch-question me-2 text-muted"></i>Enter your question here</label>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Recommendation Type:</label>
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="item_type" id="typeAll" value="all" checked>
+                                <label class="form-check-label" for="typeAll">All</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="item_type" id="typeJobs" value="job">
+                                <label class="form-check-label" for="typeJobs">Jobs</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="item_type" id="typeCourses" value="course">
+                                <label class="form-check-label" for="typeCourses">Courses</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" id="fallbackCheckbox">
+                        <label class="form-check-label" for="fallbackCheckbox"><i class="bi bi-lightbulb me-1"></i>Not finding what you need? Try a general AI response.</label>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-ask"><i class="bi bi-robot me-2"></i>Get Answer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="container my-5">
+        <div id="loading" class="text-center py-4 d-none">
+            <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>
+            <p class="mt-3 text-muted">Finding the answer...</p>
+        </div>
+
+        <div id="answerContainer" class="d-none">
+            <div id="summaryContainer" class="summary-box d-none"></div>
+            <h3 class="text-secondary fw-bold mt-4">Detailed Recommendations:</h3>
+            <div id="recommendationsContainer"></div>
+            <div id="fallbackContainer" class="fallback-box d-none"></div>
+
+            <div id="feedbackContainer" class="feedback-section text-center d-none">
+                <p class="mb-2 fw-bold">Was this response helpful?</p>
+                <button id="feedbackHelpful" class="btn btn-success btn-sm me-2"><i class="bi bi-hand-thumbs-up-fill"></i> Helpful</button>
+                <button id="feedbackNotHelpful" class="btn btn-danger btn-sm"><i class="bi bi-hand-thumbs-down-fill"></i> Not Helpful</button>
+                <div id="feedbackThanks" class="text-success mt-2 d-none">Thanks for your feedback!</div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-center py-4 bg-white border-top mt-5">
+        </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- Element constants remain the same ---
+        const qaForm = document.getElementById('qaForm');
+        const questionInput = document.getElementById('questionInput');
+        const loadingSpinner = document.getElementById('loading');
+        const answerContainer = document.getElementById('answerContainer');
+        const summaryContainer = document.getElementById('summaryContainer');
+        const recommendationsContainer = document.getElementById('recommendationsContainer');
+        const fallbackContainer = document.getElementById('fallbackContainer');
+        const fallbackCheckbox = document.getElementById('fallbackCheckbox');
+
+        // --- NEW: Feedback element constants ---
+        const feedbackContainer = document.getElementById('feedbackContainer');
+        const btnHelpful = document.getElementById('feedbackHelpful');
+        const btnNotHelpful = document.getElementById('feedbackNotHelpful');
+        const thanksMessage = document.getElementById('feedbackThanks');
+        
+        // --- NEW: Variable to store the last query for feedback logging ---
+        let lastQuery = '';
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        async function fetchRecommendations(question, itemType, useFallback) {
+            lastQuery = question; // Store the query
+            loadingSpinner.classList.remove('d-none');
+            answerContainer.classList.add('d-none');
+            feedbackContainer.classList.add('d-none'); // Hide feedback on new search
+            thanksMessage.classList.add('d-none');
+            btnHelpful.disabled = false;
+            btnNotHelpful.disabled = false;
+
+            try {
+                const response = await fetch('/ask-question/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        question: question,
+                        item_type: itemType,
+                        use_gemini_fallback: useFallback // Corrected key from previous fix
+                    })
+                });
+
+                const data = await response.json();
+                loadingSpinner.classList.add('d-none');
+                answerContainer.classList.remove('d-none');
+                
+                // Show feedback buttons if we got any successful response
+                if (data.status === 'success') {
+                    feedbackContainer.classList.remove('d-none');
+                }
+
+                if (data.status === 'success') {
+                    // Display Summary
+                    if (data.llm_summary) {
+                        summaryContainer.innerHTML = `<h5>AI Summary:</h5><p>${data.llm_summary.replace(/\n/g, '<br>')}</p>`;
+                        summaryContainer.classList.remove('d-none');
+                    } else {
+                        summaryContainer.classList.add('d-none');
+                    }
+
+                    // Display RAG Recommendations
+                    if (data.recommendations && data.recommendations.length > 0) {
+                        let recHtml = '';
+                        data.recommendations.forEach(rec => {
+                            const originalData = rec.original_data;
+                            recHtml += `<div class="recommendation-card">`;
+                            // MODIFIED & ROBUST: Handle both 'Title' and 'course_title'
+                            const title = originalData.Title || originalData.course_title || 'N/A';
+                            recHtml += `<h6>${rec.context_type.toUpperCase()}: ${title}</h6>`;
+                            
+                            if (rec.context_type === 'job') {
+                                recHtml += `<p><strong>Company:</strong> ${originalData.Company || 'N/A'}</p>`;
+                                recHtml += `<p><strong>Responsibilities:</strong> ${originalData.Responsibilities || 'N/A'}</p>`;
+                            } else if (rec.context_type === 'course') {
+                                // MODIFIED & ROBUST: Handles potential case issues by checking for both cases
+                                recHtml += `<p><strong>Organization:</strong> ${originalData.course_organization || originalData.Course_organization || 'N/A'}</p>`;
+                                recHtml += `<p><strong>Rating:</strong> ${originalData.course_rating || originalData.Course_rating || 'N/A'}</p>`;
+                                recHtml += `<p><strong>Difficulty:</strong> ${originalData.course_difficulty || originalData.Course_difficulty || 'N/A'}</p>`;
+                                recHtml += `<p><strong>Students Enrolled:</strong> ${originalData.course_students_enrolled || originalData.Course_students_enrolled || 'N/A'}</p>`;
+                            }
+                            recHtml += `<p><strong>Extracted Answer:</strong> ${rec.answer}</p>`;
+                            recHtml += `<p class="small text-muted">QA Confidence: ${rec.score.toFixed(4)}</p>`;
+                            recHtml += `</div>`;
+                        });
+                        recommendationsContainer.innerHTML = recHtml;
+                    } else if (data.gemini_fallback_output) {
+                        fallbackContainer.innerHTML = `<h5>Gemini Recommendation:</h5><p>${data.gemini_fallback_output.replace(/\n/g, '<br>')}</p>`;
+                        fallbackContainer.classList.remove('d-none');
+                        recommendationsContainer.innerHTML = '<p class="text-muted">No detailed results from the local model were found.</p>';
+                    } else {
+                        recommendationsContainer.innerHTML = '<p class="text-muted">Sorry, no recommendations were found for your query.</p>';
+                    }
+                } else {
+                    recommendationsContainer.innerHTML = `<div class="alert alert-danger">${data.error || 'An unknown error occurred.'}</div>`;
+                }
+            } catch (error) {
+                loadingSpinner.classList.add('d-none');
+                answerContainer.classList.remove('d-none');
+                recommendationsContainer.innerHTML = `<div class="alert alert-danger">Error fetching data: ${error.message}</div>`;
+            }
+        }
+
+        // --- NEW: Function to send feedback to the backend ---
+        async function sendFeedback(feedbackText) {
+            try {
+                await fetch('/log-feedback/', { // The new URL for feedback
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        query: lastQuery,
+                        feedback: feedbackText
+                    })
+                });
+                // Show thanks message and disable buttons
+                thanksMessage.classList.remove('d-none');
+                btnHelpful.disabled = true;
+                btnNotHelpful.disabled = true;
+
+            } catch (error) {
+                console.error("Error sending feedback:", error);
+            }
+        }
+
+        qaForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const question = questionInput.value.trim();
+            const itemType = document.querySelector('input[name="item_type"]:checked')?.value || 'all';
+            const useFallback = fallbackCheckbox.checked;
+            if (question) {
+                fetchRecommendations(question, itemType, useFallback);
+            }
+        });
+
+        // --- NEW: Event listeners for feedback buttons ---
+        btnHelpful.addEventListener('click', () => sendFeedback('Helpful'));
+        btnNotHelpful.addEventListener('click', () => sendFeedback('Not Helpful'));
+
+        // --- Auto-query logic remains the same ---
+        const urlParams = new URLSearchParams(window.location.search);
+        const autoQuery = urlParams.get('query');
+        if (autoQuery) {
+            questionInput.value = autoQuery;
+            setTimeout(() => { fetchRecommendations(autoQuery, 'all', false); }, 100);
+        }
+    });
+    </script>
+</body>
+</html>
