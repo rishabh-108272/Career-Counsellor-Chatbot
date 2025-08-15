@@ -155,9 +155,10 @@ Once the server is running, you can explore the application's features:
 * **Feedback:** Provide feedback on the system at `/career/feedback/`.
 
 ## Dataset References
--[Resume Dataset](https://www.kaggle.com/code/warazubairkhan/pdf-resume-text-extraction-analysis-framework)
--[Job Title Description](https://www.kaggle.com/datasets/kshitizregmi/jobs-and-job-description)
--[Coursera Course Dataset](https://www.kaggle.com/datasets/siddharthm1698/coursera-course-dataset)
+* [Resume Dataset](https://www.kaggle.com/code/warazubairkhan/pdf-resume-text-extraction-analysis-framework)
+* [Job Title Description](https://www.kaggle.com/datasets/kshitizregmi/jobs-and-job-description)
+* [Coursera Course Dataset](https://www.kaggle.com/datasets/siddharthm1698/coursera-course-dataset)
+
 
 
 
