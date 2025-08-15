@@ -27,7 +27,7 @@ Before you begin, ensure you have the following installed:
 Open your command prompt and clone the repository:
 
 ```bash
-git clone [https://github.com/rishabh-108272/Career-Counsellor-Chatbot.git](https://github.com/rishabh-108272/Career-Counsellor-Chatbot.git)
+git clone https://github.com/rishabh-108272/Career-Counsellor-Chatbot.git
 ```
 
 ### 3. Navigate to Project Root
@@ -158,6 +158,7 @@ Once the server is running, you can explore the application's features:
 * [Resume Dataset](https://www.kaggle.com/code/warazubairkhan/pdf-resume-text-extraction-analysis-framework)
 * [Job Title Description](https://www.kaggle.com/datasets/kshitizregmi/jobs-and-job-description)
 * [Coursera Course Dataset](https://www.kaggle.com/datasets/siddharthm1698/coursera-course-dataset)
+
 
 
 
