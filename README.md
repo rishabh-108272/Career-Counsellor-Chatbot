@@ -1,4 +1,4 @@
-# Career-Counsellor-Chatbot
+# Pathwise: AI Powered Career Buddy
 
 This is a Django web application that provides career conselling services leveraging AI models. It offers a comprehensive suite of tools for individuals seeking to understand their professional profile and explore career opportunities.
 
@@ -158,6 +158,7 @@ Once the server is running, you can explore the application's features:
 * [Resume Dataset](https://www.kaggle.com/code/warazubairkhan/pdf-resume-text-extraction-analysis-framework)
 * [Job Title Description](https://www.kaggle.com/datasets/kshitizregmi/jobs-and-job-description)
 * [Coursera Course Dataset](https://www.kaggle.com/datasets/siddharthm1698/coursera-course-dataset)
+
 
 
 
