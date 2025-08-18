@@ -154,10 +154,34 @@ Once the server is running, you can explore the application's features:
 * **AI Chatbot:** Use the interactive chatbot at `/career/chatbot/` for general career advice or to explore your analysis results interactively.
 * **Feedback:** Provide feedback on the system at `/career/feedback/`.
 
+## 🧪 Testing
+
+This project includes a suite of automated tests to ensure code quality and reliability. Tests are written using the **Pytest** framework.
+
+### Running Tests
+
+1.  Navigate to the project's root directory.
+2.  Install the necessary dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  Run the test suite:
+    ```bash
+    pytest
+    ```
+
+### Test Coverage
+
+To generate a report of which code is covered by the tests, run:
+```bash
+pytest --cov=career
+```
+
 ## Dataset References
 * [Resume Dataset](https://www.kaggle.com/code/warazubairkhan/pdf-resume-text-extraction-analysis-framework)
 * [Job Title Description](https://www.kaggle.com/datasets/kshitizregmi/jobs-and-job-description)
 * [Coursera Course Dataset](https://www.kaggle.com/datasets/siddharthm1698/coursera-course-dataset)
+
 
 
 
