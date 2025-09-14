@@ -148,11 +148,19 @@ The application will now be running. Open your web browser and navigate to `http
 Once the server is running, you can explore the application's features:
 
 * **Home Page:** Access the main landing page at `http://127.0.0.1:8000/career/`.
+  <img width="1018" height="516" alt="image" src="https://github.com/user-attachments/assets/6b39bdf6-cd39-4e6b-9246-2d8ff83e4023" />
 * **Resume Upload:** Go to `/career/resume-upload/` to upload your PDF resume for parsing.
+  <img width="1018" height="526" alt="image" src="https://github.com/user-attachments/assets/0e84cbc3-11a6-4c12-8df4-253ea9903472" />
+* **Analysis Results** View the Resume Parser Analysis results.
+  <img width="1004" height="477" alt="image" src="https://github.com/user-attachments/assets/2ea87fc2-b46c-450a-a542-6adadcaad728" />
 * **Skill Analysis:** After successfully uploading a resume, proceed to `/career/skill-analysis/` to view the extracted skills, matched career role, and visual analytics.
+  <img width="1007" height="520" alt="image" src="https://github.com/user-attachments/assets/dc99bea7-49c6-4a9a-8634-37a3b05512d9" />
+* **Technical and Soft Skill Analysis:**
+  <img width="996" height="519" alt="image" src="https://github.com/user-attachments/assets/7f7bcfd6-f005-494f-92a7-fe4fcda6cad9" />
 * **Job Recommender:** Navigate to `/career/job-recommender/` to get personalized job and course recommendations based on your profile or custom queries.
+  <img width="940" height="473" alt="image" src="https://github.com/user-attachments/assets/0189735c-672a-4808-8cd4-26a8943b4cea" />
 * **AI Chatbot:** Use the interactive chatbot at `/career/chatbot/` for general career advice or to explore your analysis results interactively.
-* **Feedback:** Provide feedback on the system at `/career/feedback/`.
+  <img width="764" height="384" alt="image" src="https://github.com/user-attachments/assets/71203c94-3498-438f-a738-028f5efe545d" />
 
 ## 🧪 Testing
 
@@ -181,6 +189,7 @@ pytest --cov=career
 * [Resume Dataset](https://www.kaggle.com/code/warazubairkhan/pdf-resume-text-extraction-analysis-framework)
 * [Job Title Description](https://www.kaggle.com/datasets/kshitizregmi/jobs-and-job-description)
 * [Coursera Course Dataset](https://www.kaggle.com/datasets/siddharthm1698/coursera-course-dataset)
+
 
 
 
